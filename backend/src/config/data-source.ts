@@ -5,17 +5,17 @@ import { DatabaseConfig } from "./config-loader";
 
 /** Initializes TypeORM data source. */
 export async function initDataSource(config: DatabaseConfig) {
-    return await new DataSource({
-        type: "postgres",
-        host: config.host,
-        port: config.port,
-        username: config.username,
-        password: config.password,
-        database: config.database,
-        synchronize: true,
-        logging: true,
-        entities: [Todo],
-        migrations: [],
-        subscribers: [],
-    }).initialize();
+  return await new DataSource({
+    type: "postgres",
+    host: config.host,
+    port: config.port,
+    username: config.username,
+    password: config.password,
+    database: config.database,
+    synchronize: true,
+    logging: false,
+    entities: [Todo],
+    migrations: [],
+    subscribers: [],
+  }).initialize();
 }

@@ -1,20 +1,32 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 /** Todo is a TypeORM todo entity. */
 @Entity()
 export class Todo {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-    @Column({ default: false })
-    finished: boolean;
+  @Column({ default: false })
+  completed: boolean;
 
-    @Column({ default: false })
-    archived: boolean;
+  @Column({ default: false })
+  archived: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: string;
 }

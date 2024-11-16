@@ -1,28 +1,65 @@
-import { useId } from "react";
-import { Todo } from "../types/api";
+import { ChangeEventHandler, useId } from "react";
+import { Todo, updateTodo } from "../api/todos";
+import { Link } from "react-router-dom";
+import { cn, dateShortFormatter } from "../lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getTodosQueryOptions } from "../queries/todos";
 
 export type TodoListItemProps = {
   todo: Todo;
-  /** Callback called on todo complete. */
+  className?: string;
   onComplete: () => void;
-  /** Calback called on todo delete. */
-  onDelete: () => void;
+  onArchive: () => void;
 };
 
 export function TodoListItem({ todo }: TodoListItemProps) {
   const id = useId();
+  const queryClient = useQueryClient();
+
+  const completeTodoMutation = useMutation({
+    mutationFn: (completed: boolean) => updateTodo(todo.id, { completed }),
+    onSuccess: () => {
+      console.log("on success");
+      queryClient.refetchQueries(getTodosQueryOptions);
+    },
+  });
+
+  const handleTodoCompleteChange: ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    completeTodoMutation.mutate(e.currentTarget.checked);
+  };
 
   return (
-    <label htmlFor={id}>
-      <div className="flex gap-4 py-2 px-4 border rounded-sm border-neutral-200">
-        <div className="flex gap-2">
-          <input id={id} type="checkbox" />
-        </div>
-        <div className="flex flex-col">
-          <p className="text-neutral-900">{todo.title}</p>
-          <p className="text-neutral-400 text-sm">{todo.description}</p>
+    <Link to={`/${todo.id}`} className="w-full">
+      <div
+        className={cn(
+          "flex border rounded-md border-neutral-200 hover:bg-neutral-50 transition-colors",
+          todo.completed && "bg-neutral-100"
+        )}
+      >
+        <label
+          htmlFor={id}
+          className="grid place-items-center size-12 gap-4 items-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <input
+            id={id}
+            type="checkbox"
+            checked={todo.completed}
+            onChange={handleTodoCompleteChange}
+            disabled={completeTodoMutation.isPending}
+          />
+        </label>
+        <div className="flex grow justify-between items-center py-2 pr-4 gap-2">
+          <p className="text-neutral-900 text-ellipsis text-nowrap md:max-w-[400px] max-w-[250px] overflow-hidden">
+            {todo.title}
+          </p>
+          <p className="text-neutral-400">
+            {dateShortFormatter.format(new Date(todo.createdAt))}
+          </p>
         </div>
       </div>
-    </label>
+    </Link>
   );
 }

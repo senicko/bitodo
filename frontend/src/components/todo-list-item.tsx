@@ -20,7 +20,7 @@ export function TodoListItem({ todo }: TodoListItemProps) {
       <div
         className={cn(
           "flex border rounded-md border-neutral-200 hover:bg-neutral-50 transition-colors",
-          todo.completed && "bg-neutral-100 hover:bg-neutral-100"
+          todo.completed && "bg-neutral-100 hover:bg-neutral-100",
         )}
       >
         <label

@@ -5,7 +5,7 @@ export function errorHandler(
   err: unknown,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   console.error("unexpected error:", err);
   res.status(500).type("application/problem+json").json({

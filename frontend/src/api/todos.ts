@@ -31,7 +31,7 @@ export type CreateTodoData = {
 
 /** Makes an API call to create a new todo. */
 export async function createTodo(
-  createTodoData: CreateTodoData
+  createTodoData: CreateTodoData,
 ): Promise<Todo> {
   const res = await fetch("http://localhost:3000/todos", {
     method: "POST",
@@ -56,7 +56,7 @@ type TodoUpdateData = Partial<{
 /** Makes an API call to update the todo with the given id. */
 export async function updateTodo(
   todoId: number,
-  todoUpdateData: TodoUpdateData
+  todoUpdateData: TodoUpdateData,
 ) {
   const res = await fetch(`http://localhost:3000/todos/${todoId}`, {
     method: "PATCH",

@@ -8,7 +8,7 @@ export function Button({
     <button
       className={cn(
         "bg-neutral-800 w-fit text-white py-2 px-4 rounded-md hover:bg-neutral-700 transition disabled:opacity-50",
-        className
+        className,
       )}
       {...props}
     />

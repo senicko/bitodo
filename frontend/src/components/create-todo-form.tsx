@@ -26,7 +26,7 @@ export function CreateTodoForm() {
     onValidationErros: (validationErrors) => {
       validationErrors.forEach((validationError) => {
         const errorPath = validationError.path.join(
-          "."
+          ".",
         ) as FieldPath<CreateTodoFormSchema>;
 
         form.setError(errorPath, {
@@ -37,7 +37,7 @@ export function CreateTodoForm() {
   });
 
   const handleFormSubmit = form.handleSubmit((data) =>
-    createTodoMutation.mutate(data)
+    createTodoMutation.mutate(data),
   );
 
   return (

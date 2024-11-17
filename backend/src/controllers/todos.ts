@@ -36,12 +36,12 @@ export class TodosController {
     router.post(
       "/",
       valdiateRequestBody(createTodoDataSchema),
-      this.createTodo.bind(this)
+      this.createTodo.bind(this),
     );
     router.patch(
       "/:id",
       valdiateRequestBody(updateTodoDataSchema),
-      this.updateTodo.bind(this)
+      this.updateTodo.bind(this),
     );
 
     router.delete("/:id", this.deleteTodo.bind(this));
@@ -82,7 +82,7 @@ export class TodosController {
   private async createTodo(
     req: TypedRequest<CreateTodoData>,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     try {
       const todo = new Todo();
@@ -101,7 +101,7 @@ export class TodosController {
   private async updateTodo(
     req: TypedRequest<UpdateTodoData>,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     try {
       const id = parseInt(req.params.id);
@@ -111,7 +111,7 @@ export class TodosController {
         {
           // NOTE: req.body is validated at this point
           ...req.body,
-        }
+        },
       );
 
       res.status(200).json();

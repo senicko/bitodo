@@ -12,7 +12,7 @@ export function useCompleteTodoMutation(todoId: number) {
       const prevQueries = queryClient.getQueryData<Array<Todo>>(["todos"]);
 
       queryClient.setQueryData<Array<Todo>>(["todos"], (oldTodos) =>
-        oldTodos?.map((t) => (t.id === todoId ? { ...t, completed } : t))
+        oldTodos?.map((t) => (t.id === todoId ? { ...t, completed } : t)),
       );
 
       return { prevQueries };

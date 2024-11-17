@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-/** Todo is a TypeORM todo entity. */
 @Entity()
 export class Todo {
   @PrimaryGeneratedColumn()

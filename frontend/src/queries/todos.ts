@@ -6,7 +6,7 @@ export const getTodosQueryOptions = queryOptions({
   queryFn: getTodos,
 });
 
-export const getTodoByIdQueryOptions = (todoId: string) =>
+export const getTodoByIdQueryOptions = (todoId: number) =>
   queryOptions({
     queryKey: ["todos", todoId],
     queryFn: () => getTodoById(todoId),

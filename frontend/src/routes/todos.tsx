@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import { TodoList } from "../components/todo-list";
 import { PlusIcon } from "@heroicons/react/16/solid";
-import { CenteredLayout } from "../components/centered-layout";
+import { CenteredLayout } from "../components/ui/centered-layout";
 import { useQuery } from "@tanstack/react-query";
 import { getTodosQueryOptions } from "../queries/todos";
+import { useErrorAlert } from "../hooks/use-error-alert";
 
 export function TodosPage() {
   const todosQuery = useQuery(getTodosQueryOptions);
+  useErrorAlert(todosQuery.error);
 
   return (
-    <CenteredLayout className="flex flex-col gap-16">
-      <header className="flex justify-between items-center">
-        <h1 className="text-2xl font-medium">Todos</h1>
+    <CenteredLayout className="flex flex-col gap-2">
+      <div className="flex justify-end">
         <Link
           to="/new"
           className="p-2 rounded-md bg-neutral-900 w-fit text-white flex items-center gap-1"
@@ -19,13 +20,14 @@ export function TodosPage() {
           Add Todo
           <PlusIcon className="size-4 text-white" />
         </Link>
-      </header>
-      <div className="flex flex-col gap-2 items-end">
+      </div>
+      <div className="flex gap-2 justify-center">
         {todosQuery.data && todosQuery.data.length === 0 && (
           <p className="text-neutral-500">You don't have any todos yet!</p>
         )}
-        {todosQuery.data && (
-          <TodoList todos={todosQuery.data} className="w-full" />
+
+        {todosQuery.data && todosQuery.data.length > 0 && (
+          <TodoList todos={todosQuery.data} />
         )}
       </div>
     </CenteredLayout>

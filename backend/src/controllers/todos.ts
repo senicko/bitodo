@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { Repository } from "typeorm";
 import * as z from "zod";
 import { Todo } from "../entity/todo";
-import { validator } from "../middlewares/validator";
+import { valdiateRequestBody } from "../middlewares/validator";
 import { TypedRequest } from "../types/express";
 
 const createTodoDataSchema = z.object({
@@ -35,12 +35,12 @@ export class TodosController {
     router.get("/:id", this.getById.bind(this));
     router.post(
       "/",
-      validator(createTodoDataSchema),
+      valdiateRequestBody(createTodoDataSchema),
       this.createTodo.bind(this)
     );
     router.patch(
       "/:id",
-      validator(updateTodoDataSchema),
+      valdiateRequestBody(updateTodoDataSchema),
       this.updateTodo.bind(this)
     );
 
@@ -53,7 +53,6 @@ export class TodosController {
   private async getAll(_: Request, res: Response, next: NextFunction) {
     try {
       const todos = await this.todosRepository.find();
-      throw new Error("this is not good");
       todos.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
       res.json(todos);
     } catch (err) {
@@ -115,7 +114,7 @@ export class TodosController {
         }
       );
 
-      res.sendStatus(200);
+      res.status(200).json();
     } catch (err) {
       next(err);
     }

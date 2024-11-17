@@ -21,9 +21,6 @@ export class Todo {
   @Column({ default: false })
   completed: boolean;
 
-  @Column({ default: false })
-  archived: boolean;
-
   @CreateDateColumn()
   createdAt: Date;
 

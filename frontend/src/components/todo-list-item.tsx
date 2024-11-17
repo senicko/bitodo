@@ -1,41 +1,26 @@
 import { ChangeEventHandler, useId } from "react";
-import { Todo, updateTodo } from "../api/todos";
+import { Todo } from "../api/todos";
 import { Link } from "react-router-dom";
 import { cn, dateShortFormatter } from "../lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getTodosQueryOptions } from "../queries/todos";
+import { useCompleteTodoMutation } from "../hooks/use-complete-todo-mutation";
 
 export type TodoListItemProps = {
   todo: Todo;
-  className?: string;
-  onComplete: () => void;
-  onArchive: () => void;
 };
 
 export function TodoListItem({ todo }: TodoListItemProps) {
   const id = useId();
-  const queryClient = useQueryClient();
+  const completeTodoMutation = useCompleteTodoMutation(todo.id);
 
-  const completeTodoMutation = useMutation({
-    mutationFn: (completed: boolean) => updateTodo(todo.id, { completed }),
-    onSuccess: () => {
-      console.log("on success");
-      queryClient.refetchQueries(getTodosQueryOptions);
-    },
-  });
-
-  const handleTodoCompleteChange: ChangeEventHandler<HTMLInputElement> = (
-    e
-  ) => {
+  const handleTodoCompleteChange: ChangeEventHandler<HTMLInputElement> = (e) =>
     completeTodoMutation.mutate(e.currentTarget.checked);
-  };
 
   return (
     <Link to={`/${todo.id}`} className="w-full">
       <div
         className={cn(
           "flex border rounded-md border-neutral-200 hover:bg-neutral-50 transition-colors",
-          todo.completed && "bg-neutral-100"
+          todo.completed && "bg-neutral-100 hover:bg-neutral-100"
         )}
       >
         <label
@@ -48,7 +33,6 @@ export function TodoListItem({ todo }: TodoListItemProps) {
             type="checkbox"
             checked={todo.completed}
             onChange={handleTodoCompleteChange}
-            disabled={completeTodoMutation.isPending}
           />
         </label>
         <div className="flex grow justify-between items-center py-2 pr-4 gap-2">

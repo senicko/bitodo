@@ -20,11 +20,12 @@ const setup = async () => {
   // Register handlers
   app.use(express.json());
   app.use(cors());
-  app.use(morgan("tiny"));
+  app.use(morgan("dev"));
 
   const todosRepository = dataSource.getRepository(Todo);
   const todosController = new TodosController(todosRepository);
   app.use("/todos", todosController.router());
+
   app.use(errorHandler);
 
   // Start

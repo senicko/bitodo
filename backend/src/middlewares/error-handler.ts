@@ -8,5 +8,8 @@ export function errorHandler(
   next: NextFunction
 ) {
   console.error("unexpected error:", err);
-  res.sendStatus(500);
+  res.status(500).type("application/problem+json").json({
+    type: "internal",
+    message: "Internal Server Error",
+  });
 }

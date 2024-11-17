@@ -1,6 +1,6 @@
 # Bitodo
 
-A ecruitment task to AGH KN BIT.
+A recruitment task for AGH KN BIT.
 
 > NOTE: This projects uses `pnpm`.
 
